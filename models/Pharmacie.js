@@ -1,6 +1,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/database.js';
 import Garde from './Garde.js';
+import Region from './Region.js';
 
 const Pharmacie = sequelize.define('Pharmacie', {
   id: {
@@ -31,5 +32,9 @@ const Pharmacie = sequelize.define('Pharmacie', {
 });
 
 Pharmacie.hasMany(Garde, {foreignKey: "pharmacieId"})
+Pharmacie.belongsTo(Region, {
+  foreignKey: "regionId",
+  as:'region'
+})
 
 export default Pharmacie;
