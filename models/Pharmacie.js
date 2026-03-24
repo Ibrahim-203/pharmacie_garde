@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/database.js';
+import Garde from './Garde.js';
 
 const Pharmacie = sequelize.define('Pharmacie', {
   id: {
@@ -28,5 +29,7 @@ const Pharmacie = sequelize.define('Pharmacie', {
   tableName: 'pharmacie',
   timestamps: true,
 });
+
+Pharmacie.hasMany(Garde, {foreignKey: "pharmacieId"})
 
 export default Pharmacie;
