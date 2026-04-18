@@ -24,13 +24,5 @@ const Garde = sequelize.define('Garde', {
     timestamps: true,
 });
 
-Garde.belongsTo(Pharmacie, {
-    foreignKey: 'pharmacieId',
-    as: 'pharmacie'
-})
-Garde.belongsTo(Region, {
-    foreignKey: 'regionId',
-    as: 'region'
-})
 
 export default Garde;

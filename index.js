@@ -1,6 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import sequelize from './config/database.js';
+import { sequelize } from './models/index.js';
 import regionRoutes from './routes/regionRoutes.js';
 import utilisateurRoutes from './routes/utilisateurRoutes.js'
 import pharmacieRoutes from './routes/pharmacieRoutes.js'

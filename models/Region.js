@@ -23,9 +23,5 @@ const Region = sequelize.define('Region', {
   timestamps: true,
 });
 
-// Relations
-Region.hasMany(Pharmacie, { foreignKey: 'regionId' });
-Region.hasMany(Utilisateur, { foreignKey: 'regionId' });
-Region.hasMany(Garde, { foreignKey: 'regionId' });
 
 export default Region;

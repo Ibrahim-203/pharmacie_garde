@@ -31,10 +31,5 @@ const Pharmacie = sequelize.define('Pharmacie', {
   timestamps: true,
 });
 
-Pharmacie.hasMany(Garde, {foreignKey: "pharmacieId"})
-Pharmacie.belongsTo(Region, {
-  foreignKey: "regionId",
-  as:'region'
-})
 
 export default Pharmacie;
