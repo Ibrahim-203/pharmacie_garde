@@ -1,8 +1,12 @@
 // services/pharmacieService.js
-import Pharmacie from '../models/Pharmacie.js';
+import {Region, Pharmacie} from '../models/index.js';
 
 export const getAllPharmacies = async () => {
-  return await Pharmacie.findAll();
+  return await Pharmacie.findAll({
+    include:[
+      { model: Region, as: 'region' }
+    ]
+  });
 };
 
 export const getPharmacieById = async (id) => {

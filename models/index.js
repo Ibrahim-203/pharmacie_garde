@@ -13,7 +13,7 @@ Region.hasMany(Utilisateur, { foreignKey: 'regionId' });
 Region.hasMany(Garde, { foreignKey: 'regionId' });
 
 // Pharmacie
-Pharmacie.belongsTo(Region, { foreignKey: 'regionId' });
+Pharmacie.belongsTo(Region, { foreignKey: 'regionId', as: 'region' });
 Pharmacie.hasMany(Garde, { foreignKey: 'pharmacieId' });
 
 // Garde
