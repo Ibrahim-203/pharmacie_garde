@@ -1,10 +1,1 @@
-Packages
-# Installer les dépendances
-npm install express cors dotenv
-npm install prisma --save-dev
-npx prisma init
-npm install @prisma/client
 
-Créer la base et tables : 
-
-npx prisma migrate dev --name init

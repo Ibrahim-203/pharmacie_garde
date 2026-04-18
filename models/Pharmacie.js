@@ -1,7 +1,5 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/database.js';
-import Garde from './Garde.js';
-import Region from './Region.js';
 
 const Pharmacie = sequelize.define('Pharmacie', {
   id: {
