@@ -5,10 +5,12 @@ import regionRoutes from './routes/regionRoutes.js';
 import utilisateurRoutes from './routes/utilisateurRoutes.js'
 import pharmacieRoutes from './routes/pharmacieRoutes.js'
 import { login } from './services/utilisateurService.js';
+import cors from 'cors';
 
 dotenv.config();
 
 const app = express();
+app.use(cors());
 app.use(express.json());
  
 // Routes
