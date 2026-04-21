@@ -1,5 +1,7 @@
 // services/pharmacieService.js
 import {Region, Pharmacie} from '../models/index.js';
+import fs from 'fs';
+import path from 'path';
 
 export const getAllPharmacies = async () => {
   return await Pharmacie.findAll({
@@ -26,5 +28,19 @@ export const updatePharmacie = async (id, data) => {
 export const deletePharmacie = async (id) => {
   const pharmacie = await Pharmacie.findByPk(id);
   if (!pharmacie) throw new Error('Pharmacie non trouvée');
-  return await pharmacie.destroy();
+
+  // 🔹 Suppression de l'image si elle existe
+  if (pharmacie.image) {
+    const imagePath = path.join('uploads', pharmacie.image);
+
+    // Vérifie si le fichier existe
+    if (fs.existsSync(imagePath)) {
+      fs.unlinkSync(imagePath); // suppression
+    }
+  }
+
+  // 🔹 Suppression en base
+  await pharmacie.destroy();
+
+  return { message: 'Pharmacie supprimée avec succès' };
 };
