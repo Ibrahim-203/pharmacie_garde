@@ -1,11 +1,11 @@
 // services/pharmacieService.js
-import {Region, Pharmacie} from '../models/index.js';
-import fs from 'fs';
+import { Region, Pharmacie } from '../models/index.js';
+import fs from 'fs/promises';
 import path from 'path';
 
 export const getAllPharmacies = async () => {
   return await Pharmacie.findAll({
-    include:[
+    include: [
       { model: Region, as: 'region' }
     ]
   });
@@ -31,11 +31,11 @@ export const deletePharmacie = async (id) => {
 
   // 🔹 Suppression de l'image si elle existe
   if (pharmacie.image) {
-    const imagePath = path.join('uploads', pharmacie.image);
-
-    // Vérifie si le fichier existe
-    if (fs.existsSync(imagePath)) {
-      fs.unlinkSync(imagePath); // suppression
+    try {
+      const imagePath = path.join('uploads', pharmacie.image);
+      await fs.unlink(imagePath);
+    } catch (err) {
+      console.warn("Image non trouvée ou déjà supprimée");
     }
   }
 
