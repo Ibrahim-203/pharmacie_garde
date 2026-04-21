@@ -46,9 +46,11 @@ router.post('/', verifyToken, upload.single('image'), async (req, res) => {
 });
 
 // PUT mettre à jour une pharmacie
-router.put('/:id', async (req, res) => {
+router.put('/:id', verifyToken ,async (req, res) => {
   try {
-    const updatedPharmacie = await updatePharmacie(req.params.id, req.body);
+    const data={...req.body}
+    if (req.file) data.image = req.file.filename; // si une nouvelle image est envoyée
+    const updatedPharmacie = await updatePharmacie(req.params.id, data);
     res.json(updatedPharmacie);
   } catch (err) {
     res.status(500).json({ error: err.message });

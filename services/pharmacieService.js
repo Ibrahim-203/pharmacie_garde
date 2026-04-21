@@ -22,6 +22,18 @@ export const createPharmacie = async (data) => {
 export const updatePharmacie = async (id, data) => {
   const pharmacie = await Pharmacie.findByPk(id);
   if (!pharmacie) throw new Error('Pharmacie non trouvée');
+
+  // 🔹 Si une nouvelle image est envoyée
+  if (data.image && pharmacie.image) {
+    try {
+      const oldImagePath = path.join('uploads', pharmacie.image);
+      await fs.unlink(oldImagePath);
+    } catch (err) {
+      console.warn("Ancienne image introuvable ou déjà supprimée");
+    }
+  }
+
+  // 🔹 Update des données
   return await pharmacie.update(data);
 };
 
