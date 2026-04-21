@@ -28,6 +28,11 @@ const Utilisateur = sequelize.define('Utilisateur', {
     type: DataTypes.INTEGER,
     allowNull: true,
   },
+    status:{
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 1 // 1 = actif, 0 = inactif
+  }
 }, {
   tableName: 'utilisateur',
   timestamps: true,

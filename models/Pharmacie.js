@@ -24,6 +24,11 @@ const Pharmacie = sequelize.define('Pharmacie', {
     allowNull: true, // on peut laisser null pour l'instant
     defaultValue: null
   },
+  status:{
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 1 // 1 = actif, 0 = inactif
+  }
 }, {
   tableName: 'pharmacie',
   timestamps: true,

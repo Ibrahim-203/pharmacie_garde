@@ -15,6 +15,11 @@ const Region = sequelize.define('Region', {
     type: DataTypes.STRING,
     allowNull: true,
   },
+    status:{
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 1 // 1 = actif, 0 = inactif
+  }
 }, {
   tableName: 'region',
   timestamps: true,
