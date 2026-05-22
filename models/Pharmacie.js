@@ -28,6 +28,11 @@ const Pharmacie = sequelize.define('Pharmacie', {
     type: DataTypes.INTEGER,
     allowNull: false,
     defaultValue: 1 // 1 = actif, 0 = inactif
+  },
+  isPermanent: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false
   }
 }, {
   tableName: 'pharmacie',
