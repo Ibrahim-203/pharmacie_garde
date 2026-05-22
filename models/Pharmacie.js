@@ -31,7 +31,6 @@ const Pharmacie = sequelize.define('Pharmacie', {
   },
   isPermanent: {
     type: DataTypes.BOOLEAN,
-    allowNull: false,
     defaultValue: false
   }
 }, {
