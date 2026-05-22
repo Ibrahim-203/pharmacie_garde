@@ -6,7 +6,9 @@ import {
   createGarde,
   updateGarde,
   deleteGarde,
-  getGardeToday
+  getGardeToday,
+  createManyGardes,
+  getGardesByRegionAndYear
 } from '../services/gardeService.js';
 
 import { verifyToken } from '../middlewares/auth.js';
@@ -31,6 +33,18 @@ router.get('/today', async (req, res) => {
       return res.status(404).json({ message: 'Aucune pharmacie de garde aujourd’hui' });
     }
     res.json(garde);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+router.get('/region/:regionId/year/:year', async (req, res) => {
+  try {
+    const { regionId, year } = req.params;
+
+    const gardes = await getGardesByRegionAndYear(regionId, year);
+
+    res.json(gardes);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -76,5 +90,26 @@ router.delete('/:id', verifyToken, async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+router.post('/bulk', verifyToken, async (req, res) => {
+  try {
+    const gardes = req.body;
+
+    if (!Array.isArray(gardes)) {
+      return res.status(400).json({ error: 'Le body doit être un tableau' });
+    }
+
+    const result = await createManyGardes(gardes);
+
+    res.status(201).json({
+      message: `${result.length} gardes créées`,
+      data: result
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+})
+
+
 
 export default router;

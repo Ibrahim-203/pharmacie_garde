@@ -5,7 +5,8 @@ import {
   getPharmacieById,
   createPharmacie,
   updatePharmacie,
-  deletePharmacie
+  deletePharmacie,
+  getPharmaciesByRegion
 } from '../services/pharmacieService.js';
 import { verifyToken } from '../middlewares/auth.js';
 import upload from '../middlewares/upload.js';
@@ -33,11 +34,21 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+// GET pharmacie par region
+router.get('/region/:regionId', async (req, res) => {
+  try {
+    const pharmacies = await getPharmaciesByRegion(req.params.regionId);
+    res.json(pharmacies);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // POST créer une pharmacie
 router.post('/', verifyToken, upload.single('image'), async (req, res) => {
   try {
     const data = { ...req.body };
-    if (req.file) data.image = req.file.filename; // enregistrer le nom du fichier
+    if (req.file) data.image = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`; // enregistrer le nom du fichier
     const newPharmacie = await createPharmacie(data);
     res.status(201).json(newPharmacie);
   } catch (err) {
@@ -46,10 +57,10 @@ router.post('/', verifyToken, upload.single('image'), async (req, res) => {
 });
 
 // PUT mettre à jour une pharmacie
-router.put('/:id', verifyToken ,async (req, res) => {
+router.put('/:id', verifyToken, upload.single('image'), async (req, res) => {
   try {
     const data={...req.body}
-    if (req.file) data.image = req.file.filename; // si une nouvelle image est envoyée
+    if (req.file) data.image = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`; // si une nouvelle image est envoyée
     const updatedPharmacie = await updatePharmacie(req.params.id, data);
     res.json(updatedPharmacie);
   } catch (err) {

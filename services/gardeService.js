@@ -56,3 +56,27 @@ export const getGardeToday = async () => {
     ]
   });
 };
+
+export const createManyGardes = async (gardesData) => {
+  return await Garde.bulkCreate(gardesData);
+};
+
+export const getGardesByRegionAndYear = async (regionId, year) => {
+  const start = new Date(`${year}-01-01`);
+  const end = new Date(`${year}-12-31`);
+
+  return await Garde.findAll({
+    where: {
+      regionId,
+      dateDebut: { [Op.lte]: end },
+      dateFin: { [Op.gte]: start }
+    },
+    include: [
+      {
+        model: Pharmacie,
+        as: 'pharmacie'
+      }
+    ],
+    order: [['dateDebut', 'ASC']]
+  });
+};

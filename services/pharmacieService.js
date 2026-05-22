@@ -12,7 +12,11 @@ export const getAllPharmacies = async () => {
 };
 
 export const getPharmacieById = async (id) => {
-  return await Pharmacie.findByPk(id);
+  return await Pharmacie.findByPk(id,{
+    include: [
+      { model: Region, as: 'region' }
+    ]
+  });
 };
 
 export const createPharmacie = async (data) => {
@@ -55,4 +59,16 @@ export const deletePharmacie = async (id) => {
   await pharmacie.destroy();
 
   return { message: 'Pharmacie supprimée avec succès' };
+};
+
+export const getPharmaciesByRegion = async (regionId) => {
+  return await Pharmacie.findAll({
+    where: { regionId },
+    include: [
+      {
+        model: Region,
+        as: 'region'
+      }
+    ]
+  });
 };

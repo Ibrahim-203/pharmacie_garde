@@ -4,6 +4,7 @@ import { sequelize } from './models/index.js';
 import regionRoutes from './routes/regionRoutes.js';
 import utilisateurRoutes from './routes/utilisateurRoutes.js'
 import pharmacieRoutes from './routes/pharmacieRoutes.js'
+import gardeRoutes from './routes/gardeRoute.js';
 import { login } from './services/utilisateurService.js';
 import cors from 'cors';
 
@@ -14,9 +15,11 @@ app.use(cors());
 app.use(express.json());
  
 // Routes
+app.use('/uploads', express.static('uploads'));
 app.use('/api/regions', regionRoutes);
 app.use('/api/utilisateurs', utilisateurRoutes);
 app.use('/api/pharmacies', pharmacieRoutes);
+app.use('/api/gardes', gardeRoutes);
 
 app.post('/api/login', async (req, res) => {
   try {
