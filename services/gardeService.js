@@ -42,19 +42,40 @@ export const deleteGarde = async (id) => {
 };
 
 
-export const getGardeToday = async () => {
+export const getTodayGardes = async () => {
   const today = new Date();
 
-  return await Garde.findOne({
+  // 🔹 Gardes normales
+  const gardes = await Garde.findAll({
     where: {
       dateDebut: { [Op.lte]: today },
       dateFin: { [Op.gte]: today }
     },
     include: [
-      { model: Pharmacie, as: 'pharmacie' },
-      { model: Region, as: 'region' }
+      {
+        model: Pharmacie,
+        as: 'pharmacie'
+      }
     ]
   });
+
+  // 🔹 Pharmacies permanentes
+  const permanentes = await Pharmacie.findAll({
+    where: {
+      isPermanentGarde: true
+    }
+  });
+
+  return [
+    ...gardes.map(g => ({
+      type: 'normal',
+      ...g.toJSON()
+    })),
+    ...permanentes.map(p => ({
+      type: 'permanente',
+      pharmacie: p
+    }))
+  ];
 };
 
 export const createManyGardes = async (gardesData) => {

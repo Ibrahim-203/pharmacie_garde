@@ -29,7 +29,7 @@ const Pharmacie = sequelize.define('Pharmacie', {
     allowNull: false,
     defaultValue: 1 // 1 = actif, 0 = inactif
   },
-  isPermanent: {
+  isPermanentGarde: {
     type: DataTypes.BOOLEAN,
     defaultValue: false
   }

@@ -6,11 +6,15 @@ dotenv.config();
 
 // Lire tous les utilisateurs
 export const getAllUtilisateurs = async () => {
+    const salt = await bcrypt.genSalt(10);
+  const data = await bcrypt.hash("password", salt);
+  console.log(data);
   return await Utilisateur.findAll();
 };
 
 // Lire un utilisateur par id
 export const getUtilisateurById = async (id) => {
+
   return await Utilisateur.findByPk(id);
 };
 

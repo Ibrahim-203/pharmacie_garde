@@ -6,7 +6,7 @@ import {
   createGarde,
   updateGarde,
   deleteGarde,
-  getGardeToday,
+  getTodayGardes,
   createManyGardes,
   getGardesByRegionAndYear
 } from '../services/gardeService.js';
@@ -28,7 +28,7 @@ router.get('/', async (req, res) => {
 // 🔥 GET garde aujourd’hui
 router.get('/today', async (req, res) => {
   try {
-    const garde = await getGardeToday();
+    const garde = await getTodayGardes();
     if (!garde) {
       return res.status(404).json({ message: 'Aucune pharmacie de garde aujourd’hui' });
     }
