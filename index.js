@@ -1,18 +1,43 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import { sequelize } from './models/index.js';
+import { sequelize, Utilisateur } from './models/index.js';
 import regionRoutes from './routes/regionRoutes.js';
 import utilisateurRoutes from './routes/utilisateurRoutes.js'
 import pharmacieRoutes from './routes/pharmacieRoutes.js'
 import gardeRoutes from './routes/gardeRoute.js';
-import { login } from './services/utilisateurService.js';
+import { createUtilisateur, login } from './services/utilisateurService.js';
 import cors from 'cors';
+import { verifyToken } from './middlewares/auth.js';
+
 
 dotenv.config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+// verifier si un utilisateur admin existe, sinon le créer
+const initializeAdminUser = async () => {
+  try {
+    const adminUser = await Utilisateur.findOne({ where: { role: 'admin' } });
+    if (!adminUser) {
+      const adminData = {
+        nom: 'Admin',
+        prenom: 'Admin',
+        email: 'admin@gmail.com',
+        motDePasse: 'admin123', //
+        role: 'admin',
+      };
+      await createUtilisateur(adminData);
+      console.log('Utilisateur admin créé avec succès !');
+    }
+  } catch (error) {
+    console.error('Erreur lors de la vérification/création de l\'utilisateur admin :', error);
+  }
+}
+
+// Appel de la fonction pour initialiser l'utilisateur admin
+initializeAdminUser();
  
 // Routes
 app.use('/uploads', express.static('uploads'));
@@ -29,6 +54,10 @@ app.post('/api/login', async (req, res) => {
   } catch (err) {
     res.status(401).json({ error: err.message });
   }
+});
+// check session availability
+app.get('/api/', verifyToken, (req, res) => {
+  res.send('API Pharmacies de Garde est en ligne !');
 });
 
 const PORT = process.env.PORT || 3000;
